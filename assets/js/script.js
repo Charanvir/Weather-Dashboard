@@ -12,6 +12,7 @@ let getCity = function (userCity) {
                     console.log(`Name: ${data[0].name}`);
                     console.log(`Longitude: ${data[0].lon}`);
                     console.log(`Latitude: ${data[0].lat}`);
+                    getCityCoordinates(data[0].lat, data[0].lon)
                 })
             } else {
                 console.log("no city entered")
@@ -22,6 +23,16 @@ let getCity = function (userCity) {
         })
 }
 
+let getCityCoordinates = function (lat, lon) {
+    let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude={part}&appid=f9dcdf6690d0d22c5198371e258e8bb2";
+    fetch(apiUrl)
+        .then(function (response) {
+            response.json().then(function (data) {
+                console.log(data)
+            });
+        });
+};
+
 let formSubmitHandler = function (event) {
     event.preventDefault();
 
@@ -31,5 +42,7 @@ let formSubmitHandler = function (event) {
         cityInputEl.value = "";
     };
 };
+
+
 
 searchButtonEl.addEventListener("click", formSubmitHandler);
