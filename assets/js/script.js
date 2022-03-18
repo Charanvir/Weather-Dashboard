@@ -9,9 +9,6 @@ let getCity = function (userCity) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(`Name: ${data[0].name}`);
-                    console.log(`Longitude: ${data[0].lon}`);
-                    console.log(`Latitude: ${data[0].lat}`);
                     getCityCoordinates(data[0].lat, data[0].lon)
                 })
             } else {
@@ -29,6 +26,7 @@ let getCityCoordinates = function (lat, lon) {
         .then(function (response) {
             response.json().then(function (data) {
                 console.log(data)
+                console.log(apiUrl)
             });
         });
 };
@@ -42,7 +40,5 @@ let formSubmitHandler = function (event) {
         cityInputEl.value = "";
     };
 };
-
-
 
 searchButtonEl.addEventListener("click", formSubmitHandler);
