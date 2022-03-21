@@ -1,0 +1,60 @@
+header {
+    background: linear-gradient(to right, blue ,aqua);
+}
+
+.formSection {
+    border-bottom: 5px solid #007bff;
+    padding-bottom: 50px;
+}
+
+.history {
+    margin-top: 30px;
+}
+
+.formSection button {
+    font-size: 20px;
+}
+
+.clearButtonDiv button {
+    font-size: 20px;
+}
+
+.favorable span {
+    background-color:chartreuse;
+    padding: 5px;
+}
+
+.moderate span {
+    background-color: yellow;
+}
+
+.severe span {
+    background-color:rgba(255, 0, 0, 0.5);
+}
+
+.weather {
+    display: none;
+}
+
+.currentName {
+    font-size: 40px;
+    padding-top: 25px;
+}
+
+.currentFontSize {
+    font-size: 25px;
+}
+
+.currentWeather {
+    border: 1px solid black;
+    margin: 5px;
+}
+
+.weatherSectionTitle {
+    font-size: 40px;
+}
+
+.futureWeather {
+    background-color: lightblue;
+    color: white;
+}
