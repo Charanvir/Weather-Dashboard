@@ -1,3 +1,8 @@
 header {
     background: linear-gradient(to right, blue ,aqua);
 }
+
+.formSection {
+    border-bottom: 5px solid #007bff;
+    padding-bottom: 50px;
+}
