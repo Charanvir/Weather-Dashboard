@@ -6,6 +6,13 @@ let historySectionEl = document.querySelector(".history");
 let clearButtonEl = document.querySelector("#clearButton");
 let searches = [];
 let currentDate = moment().format('l');
+let forecast = [
+    { futureWeather: moment().add(1, 'days').format('l') },
+    { futureWeather: moment().add(2, 'days').format('l') },
+    { futureWeather: moment().add(3, 'days').format('l') },
+    { futureWeather: moment().add(4, 'days').format('l') },
+    { futureWeather: moment().add(5, 'days').format('l') },
+]
 let forecastOne = moment().add(1, 'days').format('l');
 let forecastTwo = moment().add(2, 'days').format('l');
 let forecastThree = moment().add(3, 'days').format('l');
@@ -98,21 +105,53 @@ let getWeatherInfo = function (windSpeed, temp, humidity, UV, icon, name) {
     currentTempEl.innerHTML = `Temp: ${(Math.floor(temp - 271.15))}°C`
     currentHumidityEl.innerHTML = `Humidity: ${humidity}%`;
     currentUVEl.innerHTML = `UV index: <span>${UV}</span>`;
-    if (0 <= UV | UV <= 2) {
+    if (UV <= 2) {
         currentUVEl.classList.add("favorable");
-    } else if (2 < UV | UV <= 7) {
+        currentUVEl.classList.remove("moderate");
+        currentUVEl.classList.remove("severe");
+    } else if (UV > 2 && UV <= 7) {
         currentUVEl.classList.add("moderate");
+        currentUVEl.classList.remove("favorable");
+        currentUVEl.classList.remove("severe");
     } else if (7 < UV) {
         currentUVEl.classList.add("severe");
+        currentUVEl.classList.remove("moderate");
+        currentUVEl.classList.remove("favorable");
     };
 };
 
 // This function gets the data needed to make the 5-day forcast, utilizing a loop to forcast 5 days
 let fiveDayForcast = function (data) {
-    for (let i = 0; i < 5; i++) {
-        console.log(data.daily);
-        console.log(`Day ${i + 1}: icon: ${data.daily[i].weather[0].icon}, temp: ${Math.floor((data.daily[i].temp.day - 271.15))}°C, wind speed: ${(data.daily[i].wind_speed * 3.6)} kph, humidity: ${data.daily[i].humidity}%`);
-    };
+
+    document.querySelector(".dayOneDate").innerHTML = forecast[0].futureWeather;
+    document.querySelector(".dayOneIcon").src = 'http://openweathermap.org/img/wn/' + data.daily[0].weather[0].icon + '@2x.png';
+    document.querySelector(".dayOneTemp").innerHTML = `Temp: ${Math.floor((data.daily[0].temp.day - 271.15))}°C`;
+    document.querySelector(".dayOneWind").innerHTML = `Wind: ${Math.floor((data.daily[0].wind_speed * 3.6))} KPH`;
+    document.querySelector(".dayOneHumidity").innerHTML = `Humidity: ${data.daily[0].humidity}%`;
+
+    document.querySelector(".dayTwoDate").innerHTML = forecast[1].futureWeather;
+    document.querySelector(".dayTwoIcon").src = 'http://openweathermap.org/img/wn/' + data.daily[1].weather[0].icon + '@2x.png';
+    document.querySelector(".dayTwoTemp").innerHTML = `Temp: ${Math.floor((data.daily[1].temp.day - 271.15))}°C`;
+    document.querySelector(".dayTwoWind").innerHTML = `Wind: ${Math.floor((data.daily[1].wind_speed * 3.6))} KPH`;
+    document.querySelector(".dayTwoHumidity").innerHTML = `Humidity: ${data.daily[1].humidity}%`;
+
+    document.querySelector(".dayThreeDate").innerHTML = forecast[2].futureWeather;
+    document.querySelector(".dayThreeIcon").src = 'http://openweathermap.org/img/wn/' + data.daily[2].weather[0].icon + '@2x.png';
+    document.querySelector(".dayThreeTemp").innerHTML = `Temp: ${Math.floor((data.daily[2].temp.day - 271.15))}°C`;
+    document.querySelector(".dayThreeWind").innerHTML = `Wind: ${Math.floor((data.daily[2].wind_speed * 3.6))} KPH`;
+    document.querySelector(".dayThreeHumidity").innerHTML = `Humidity: ${data.daily[2].humidity}%`;
+
+    document.querySelector(".dayFourDate").innerHTML = forecast[3].futureWeather;
+    document.querySelector(".dayFourIcon").src = 'http://openweathermap.org/img/wn/' + data.daily[3].weather[0].icon + '@2x.png';
+    document.querySelector(".dayFourTemp").innerHTML = `Temp: ${Math.floor((data.daily[3].temp.day - 271.15))}°C`;
+    document.querySelector(".dayFourWind").innerHTML = `Wind: ${Math.floor((data.daily[3].wind_speed * 3.6))} KPH`;
+    document.querySelector(".dayFourHumidity").innerHTML = `Humidity: ${data.daily[3].humidity}%`;
+
+    document.querySelector(".dayFiveDate").innerHTML = forecast[4].futureWeather;
+    document.querySelector(".dayFiveIcon").src = 'http://openweathermap.org/img/wn/' + data.daily[4].weather[0].icon + '@2x.png';
+    document.querySelector(".dayFiveTemp").innerHTML = `Temp: ${Math.floor((data.daily[4].temp.day - 271.15))}°C`;
+    document.querySelector(".dayFiveWind").innerHTML = `Wind: ${Math.floor((data.daily[4].wind_speed * 3.6))} KPH`;
+    document.querySelector(".dayfiveHumidity").innerHTML = `Humidity: ${data.daily[4].humidity}%`;
 };
 
 // Function to save button name value into localStorage 

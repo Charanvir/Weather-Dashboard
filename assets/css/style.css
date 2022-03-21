@@ -29,7 +29,7 @@ header {
 }
 
 .severe span {
-    background-color: red;
+    background-color:rgba(255, 0, 0, 0.5);
 }
 
 .weather {
@@ -52,4 +52,9 @@ header {
 
 .weatherSectionTitle {
     font-size: 40px;
+}
+
+.futureWeather {
+    background-color: lightblue;
+    color: white;
 }
