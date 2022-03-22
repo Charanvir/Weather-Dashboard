@@ -196,10 +196,6 @@ let loadFunction = function () {
 // Function to allow user to clear localStorage and clear the Past Searches
 let clearData = function () {
     localStorage.clear();
-    if (historySectionEl.contains(document.querySelector(".historyButtonInput"))) {
-        let button = document.querySelector(".historyButtonInput")
-        button.remove();
-    };
     window.location.reload();
 };
 
