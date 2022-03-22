@@ -97,7 +97,7 @@ let formSubmitHandler = function (event) {
 // create a button for searches to append to the webpage under the form
 let makeSearchHistory = function (data) {
     let historyButton = document.createElement("button");
-    historyButton.innerText = data.name;
+    historyButton.innerText = (data.name).toUpperCase();
     historyButton.classList.add("col-12", "btn", "btn-secondary", "historyButtonInput", "my-2");
     historySectionEl.appendChild(historyButton);
     if (data) {
