@@ -24,7 +24,6 @@ let weatherSectionEl = document.querySelector(".weather");
 // The One Call API takes longitudinal and latitudinal coorindates, so needs to use another API to fetch the city name, then pass the coordiantes into getCityCoordiantes to access the data from oneShotAPI
 let getCity = function (searchesName) {
     let apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchesName.name + "&limit=1&appid=f9dcdf6690d0d22c5198371e258e8bb2";
-
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -46,7 +45,7 @@ let getCity = function (searchesName) {
 };
 
 // Function to pass button text into API to allow button functionality
-let getCityHistory = function (searchesName) {
+let getCityFromHistory = function (searchesName) {
     let apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchesName.name + "&limit=1&appid=f9dcdf6690d0d22c5198371e258e8bb2";
     fetch(apiUrl)
         .then(function (response) {
@@ -112,7 +111,7 @@ let makeSearchHistory = function (data) {
             name: searchCity
         }
         if (searchCity) {
-            getCityHistory(searchesName);
+            getCityFromHistory(searchesName);
             cityInputEl.value = "";
         };
     });
@@ -201,6 +200,7 @@ let clearData = function () {
         let button = document.querySelector(".historyButtonInput")
         button.remove();
     };
+    window.location.reload();
 };
 
 
