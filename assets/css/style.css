@@ -1,3 +1,7 @@
+body {
+background-color: antiquewhite;
+}
+
 header {
     background: linear-gradient(to right, blue ,aqua);
 }

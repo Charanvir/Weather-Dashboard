@@ -1,4 +1,3 @@
-// api key = f9dcdf6690d0d22c5198371e258e8bb2
 let cityInputEl = document.querySelector("#cityName");
 let searchButtonEl = document.querySelector("#searchButton");
 let searchHistory = document.querySelector(".history");
@@ -13,11 +12,6 @@ let forecast = [
     { futureWeather: moment().add(4, 'days').format('l') },
     { futureWeather: moment().add(5, 'days').format('l') },
 ]
-let forecastOne = moment().add(1, 'days').format('l');
-let forecastTwo = moment().add(2, 'days').format('l');
-let forecastThree = moment().add(3, 'days').format('l');
-let forecastFour = moment().add(4, 'days').format('l');
-let forecastFive = moment().add(5, 'days').format('l');
 let currentNameEl = document.querySelector(".currentName");
 let currentTempEl = document.querySelector(".currentTemp");
 let currentWindEl = document.querySelector(".currentWind");
@@ -27,10 +21,33 @@ let currentIconEl = document.querySelector("#currentIcon");
 let weatherSectionEl = document.querySelector(".weather");
 
 
-// the One Call API takes longitudinal and latitudinal coorindates, so needs to use another API to fetch the city name, then pass the coordiantes into getCityCoordiantes to access the data from oneShotAPI
-let getCity = function (userCity) {
-    let apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + userCity + "&limit=1&appid=f9dcdf6690d0d22c5198371e258e8bb2";
+// The One Call API takes longitudinal and latitudinal coorindates, so needs to use another API to fetch the city name, then pass the coordiantes into getCityCoordiantes to access the data from oneShotAPI
+let getCity = function (searchesName) {
+    let apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchesName.name + "&limit=1&appid=f9dcdf6690d0d22c5198371e258e8bb2";
 
+    fetch(apiUrl)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    getCityCoordinates(data[0].lat, data[0].lon, data[0].name)
+                    makeSearchHistory(searchesName);
+                });
+            } else {
+                alert("Please enter a valid city!");
+                return
+            };
+        })
+        .catch(function (error) {
+            alert("Please enter a valid city!");
+            console.log(error);
+            return
+        });
+    // console.log(`Search history API ${apiUrl}`);
+};
+
+// Function to pass button text into API to allow button functionality
+let getCityHistory = function (searchesName) {
+    let apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchesName.name + "&limit=1&appid=f9dcdf6690d0d22c5198371e258e8bb2";
     fetch(apiUrl)
         .then(function (response) {
             if (response.ok) {
@@ -38,15 +55,13 @@ let getCity = function (userCity) {
                     getCityCoordinates(data[0].lat, data[0].lon, data[0].name)
                 });
             } else {
-                alert("Please enter a valid city!")
+                alert("Please enter a valid city!");
                 return
             };
         })
-        .catch(function (error) {
-            alert("Please enter a valid city!")
-            return
-        });
+    // console.log(`Button API ${apiUrl}`);
 };
+
 // have all other functions that need API data run in this function
 // Once the city coordinates are found, can pass into this function and get the API data that is needed
 let getCityCoordinates = function (lat, lon, name) {
@@ -57,7 +72,12 @@ let getCityCoordinates = function (lat, lon, name) {
                 getWeatherInfo(data.current.wind_speed, data.current.temp, data.current.humidity, data.current.uvi, data.current.weather[0].icon, name);
                 fiveDayForcast(data);
             });
-        });
+        })
+        .catch(function (error) {
+            alert("Please enter a valid city name!!");
+            console.log(error);
+            return
+        })
 };
 
 
@@ -67,12 +87,11 @@ let formSubmitHandler = function (event) {
 
     var searchCity = cityInputEl.value.trim();
     if (searchCity) {
-        getCity(searchCity);
         cityInputEl.value = "";
         let searchesName = {
             name: searchCity
         }
-        makeSearchHistory(searchesName);
+        getCity(searchesName);
     };
 };
 
@@ -89,8 +108,11 @@ let makeSearchHistory = function (data) {
     // this gives the functionality to make the created buttons display the weather data when clicked, much like the form submit button click function
     historyButton.addEventListener("click", function () {
         var searchCity = historyButton.innerHTML
+        let searchesName = {
+            name: searchCity
+        }
         if (searchCity) {
-            getCity(searchCity);
+            getCityHistory(searchesName);
             cityInputEl.value = "";
         };
     });
@@ -101,7 +123,7 @@ let getWeatherInfo = function (windSpeed, temp, humidity, UV, icon, name) {
     weatherSectionEl.classList.remove("weather");
     currentNameEl.innerHTML = `${name} ${currentDate} `
     currentIconEl.src = 'http://openweathermap.org/img/wn/' + icon + '@2x.png';
-    currentWindEl.innerHTML = `Wind Speed: ${windSpeed * 3.6} KPH`;
+    currentWindEl.innerHTML = `Wind Speed: ${Math.floor(windSpeed * 3.6)} KPH`;
     currentTempEl.innerHTML = `Temp: ${(Math.floor(temp - 271.15))}°C`
     currentHumidityEl.innerHTML = `Humidity: ${humidity}%`;
     currentUVEl.innerHTML = `UV index: <span>${UV}</span>`;
@@ -160,6 +182,7 @@ let saveFunction = function () {
 };
 
 // Function to retrieve data saved in localStorage and recreate the buttons that are appended to the webpage
+// The loadFunction was designed so that the buttons and their functionality persist, but the actual content is once again hidden upon refresh
 let loadFunction = function () {
     let retrievedData = localStorage.getItem("saved");
     if (!retrievedData) {
