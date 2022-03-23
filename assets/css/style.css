@@ -61,4 +61,24 @@ header {
 .futureWeather {
     background-color: lightblue;
     color: white;
+    border: 1px grey solid;
+}
+
+
+@media screen and (max-width: 1150px) {
+    .futureWeather h4 {
+        font-size: 2vw;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .futureWeather h4 {
+        font-size: 4vw;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .futureWeather h4 {
+        font-size: 6vw;
+    }
 }
