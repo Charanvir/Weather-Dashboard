@@ -28,20 +28,21 @@ let getCity = function (searchesName) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    getCityCoordinates(data[0].lat, data[0].lon, data[0].name)
-                    makeSearchHistory(searchesName);
+                    console.log(data)
+                    if (data.length === 0) {
+                        alert("Please enter a valid city!")
+                    } else {
+                        getCityCoordinates(data[0].lat, data[0].lon, data[0].name)
+                        makeSearchHistory(searchesName);
+                    }
                 });
-            } else {
-                alert("Please enter a valid city!");
-                return
-            };
+            }
         })
         .catch(function (error) {
             alert("Please enter a valid city!");
             console.log(error);
             return
         });
-    // console.log(`Search history API ${apiUrl}`);
 };
 
 // Function to pass button text into API to allow button functionality
@@ -53,12 +54,11 @@ let getCityFromHistory = function (searchesName) {
                 response.json().then(function (data) {
                     getCityCoordinates(data[0].lat, data[0].lon, data[0].name)
                 });
-            } else {
-                alert("Please enter a valid city!");
-                return
-            };
+            }
         })
-    // console.log(`Button API ${apiUrl}`);
+        .catch(function (error) {
+            alert("Please try again!!")
+        })
 };
 
 // have all other functions that need API data run in this function
@@ -73,7 +73,7 @@ let getCityCoordinates = function (lat, lon, name) {
             });
         })
         .catch(function (error) {
-            alert("Please enter a valid city name!!");
+            alert("Please try again!!");
             console.log(error);
             return
         })
