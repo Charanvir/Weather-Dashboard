@@ -1,3 +1,7 @@
+body {
+background-color: powderblue;
+}
+
 header {
     background: linear-gradient(to right, blue ,aqua);
 }
@@ -55,7 +59,7 @@ header {
 }
 
 .futureWeather {
-    background-color: lightblue;
+    background-color: skyblue;
     color: white;
     border: 1px grey solid;
 }
